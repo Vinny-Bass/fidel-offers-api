@@ -1,0 +1,29 @@
+service: offers-api
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: ${opt:region, 'us-east-2'}
+  stage: ${opt:stage, 'dev'}
+  lambdaHashingVersion: 20201221
+  environment:
+    DYNAMO_DB_REGION: ${file(.env.${opt:stage, 'dev'}.json):DYNAMO_DB_REGION}
+    DYNAMO_DB_ENDPOINT: ${file(.env.${opt:stage, 'dev'}.json):DYNAMO_DB_ENDPOINT}
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-tscpaths
+  - serverless-offline
+
+custom:
+  tscpaths:
+    tsconfigPath: tsconfig.json
+
+functions:
+  createLocation:
+    handler: src/handler.createLocation
+    events:
+      - http:
+          path: locations/create
+          method: post
+          cors: true
