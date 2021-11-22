@@ -7,4 +7,5 @@ export type CreateLocationDTO = {
 
 export default interface ILocationData {
   createLocation(data: CreateLocationDTO): Promise<LocationEntity>;
+  getLocation(locationId: string): Promise<LocationEntity>;
 }

@@ -1,5 +1,7 @@
 import { CreateLocationDTO } from '@domain/location/data/ILocationData';
+import { CreateOfferDTO } from '@domain/offer/data/IOfferData';
 import CreateLocationController from '@infra/location/controllers/CreateLocationController';
+import CreateOfferController from '@infra/offer/controllers/CreateOfferController';
 import { Handler, Context, APIGatewayEvent } from 'aws-lambda';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -21,10 +23,30 @@ export const createLocation: Handler = async (event: APIGatewayEvent, context: C
     const createLocationController = new CreateLocationController();
     const location = await createLocationController.handle(data);
 
-    console.log(location);
-
     return {
       data: location,
+    };
+  } catch (err) {
+    console.log(123, err);
+    return {
+      error: err,
+    };
+  }
+};
+
+export const createOffer: Handler = async (event: APIGatewayEvent, context: Context) => {
+  context.callbackWaitsForEmptyEventLoop = false;
+
+  if (!event.body) return {};
+
+  const data: CreateOfferDTO = JSON.parse(event.body);
+
+  try {
+    const createOfferController = new CreateOfferController();
+    const offer = await createOfferController.handle(data);
+
+    return {
+      data: offer,
     };
   } catch (err) {
     console.log(123, err);
