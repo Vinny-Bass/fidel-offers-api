@@ -1,5 +1,8 @@
-import ILocationData, { CreateLocationDTO } from '@domain/location/data/ILocationData';
-import { LocationEntity } from '@domain/location/entities/LocationEntity';
+import ILocationData, {
+  CreateLocationDTO,
+  LinkLocationToOfferDTO,
+} from '@domain/location/data/ILocationData';
+import { LocationEntity, LocationOfferEntity } from '@domain/location/entities/LocationEntity';
 import { uuid } from 'uuidv4';
 
 import DynamoDBClient from './DynamoDBClient';
@@ -45,6 +48,26 @@ export default class LocationProvider extends DynamoDBClient implements ILocatio
       };
     } catch (err) {
       return {} as LocationEntity;
+    }
+  }
+
+  public async linkLocationToOffer(data: LinkLocationToOfferDTO): Promise<LocationOfferEntity> {
+    const linkData = {
+      pk: `location-${data.locationId}`,
+      sk: `offer-${data.offerId}`,
+    };
+
+    try {
+      await this.client
+        .put({
+          TableName: this.tableName,
+          Item: linkData,
+        })
+        .promise();
+
+      return data;
+    } catch (err) {
+      return {} as LocationOfferEntity;
     }
   }
 }

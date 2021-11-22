@@ -1,5 +1,8 @@
-import ILocationData, { CreateLocationDTO } from '@domain/location/data/ILocationData';
-import { LocationEntity } from '@domain/location/entities/LocationEntity';
+import ILocationData, {
+  CreateLocationDTO,
+  LinkLocationToOfferDTO,
+} from '@domain/location/data/ILocationData';
+import { LocationEntity, LocationOfferEntity } from '@domain/location/entities/LocationEntity';
 import { uuid } from 'uuidv4';
 
 export default class FakeLocationProvider implements ILocationData {
@@ -25,5 +28,9 @@ export default class FakeLocationProvider implements ILocationData {
     };
 
     return newLocation;
+  }
+
+  public async linkLocationToOffer(data: LinkLocationToOfferDTO): Promise<LocationOfferEntity> {
+    return data;
   }
 }

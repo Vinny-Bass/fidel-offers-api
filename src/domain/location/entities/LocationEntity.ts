@@ -4,3 +4,8 @@ export type LocationEntity = {
   brandId: string;
   hasOffers: boolean;
 };
+
+export type LocationOfferEntity = {
+  locationId: string;
+  offerId: string;
+};
