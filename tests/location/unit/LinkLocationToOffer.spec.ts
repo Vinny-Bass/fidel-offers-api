@@ -1,5 +1,3 @@
-import { isUuid } from 'uuidv4';
-
 import LinkLocationToOfferFactoryFake from '../factory/LinkLocationToOffer';
 
 let linkLocationToOfferUseCase: LinkLocationToOfferFactoryFake;
