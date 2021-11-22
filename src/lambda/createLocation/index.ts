@@ -6,7 +6,7 @@ import jsonBodyParser from '@middy/http-json-body-parser';
 import validator from '@middy/validator';
 import { Handler, Context } from 'aws-lambda';
 
-const createLocation: Handler = async (event: any, context: Context) => {
+const createLocation: Handler = async (event, context: Context) => {
   context.callbackWaitsForEmptyEventLoop = false;
 
   if (!event.body) return {};
