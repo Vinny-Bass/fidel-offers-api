@@ -27,3 +27,11 @@ functions:
           path: locations/create
           method: post
           cors: true
+
+  createOffer:
+    handler: src/handler.createOffer
+    events:
+      - http:
+          path: offers/create
+          method: post
+          cors: true
