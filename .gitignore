@@ -10,3 +10,5 @@ out-logger.json
 config/*
 !config/env.stage.example.json
 .idea/
+.env.dev.json
+.env.prod.json

@@ -5,12 +5,28 @@ import { uuid } from 'uuidv4';
 import DynamoDBClient from './DynamoDBClient';
 
 export default class LocationProvider extends DynamoDBClient implements ILocationData {
-  private tableName = 'Locations';
+  private tableName = 'LocationsOffers';
+
+  public async getLocation(locationId: string): Promise<LocationEntity> {
+    const location = await this.client
+      .get({
+        TableName: this.tableName,
+        Key: {
+          pk: `location-${locationId}`,
+        },
+      })
+      .promise();
+
+    return location.Item as LocationEntity;
+  }
 
   public async createLocation(data: CreateLocationDTO): Promise<LocationEntity> {
-    const toCreateLocation: LocationEntity = {
-      ...data,
-      locationId: uuid(),
+    const newLocationId = uuid();
+    const toCreateLocation = {
+      pk: `location-${newLocationId}`,
+      sk: `location-${newLocationId}`,
+      brandId: data.brandId,
+      address: data.address,
       hasOffers: false,
     };
 
@@ -22,7 +38,11 @@ export default class LocationProvider extends DynamoDBClient implements ILocatio
         })
         .promise();
 
-      return toCreateLocation;
+      return {
+        ...data,
+        locationId: newLocationId,
+        hasOffers: false,
+      };
     } catch (err) {
       return {} as LocationEntity;
     }

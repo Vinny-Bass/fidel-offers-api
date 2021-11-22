@@ -11,13 +11,32 @@ AWS.config.update({
 const dynamodb = new AWS.DynamoDB();
 
 const params = {
-  TableName: 'Locations',
-  KeySchema: [{ AttributeName: 'locationId', KeyType: 'HASH' }],
-  AttributeDefinitions: [{ AttributeName: 'locationId', AttributeType: 'S' }],
+  TableName: 'LocationsOffers',
+  KeySchema: [
+    { AttributeName: 'pk', KeyType: 'HASH' },
+    { AttributeName: 'sk', KeyType: 'RANGE' },
+  ],
+  AttributeDefinitions: [
+    { AttributeName: 'pk', AttributeType: 'S' },
+    { AttributeName: 'sk', AttributeType: 'S' },
+  ],
   ProvisionedThroughput: {
     ReadCapacityUnits: 10,
     WriteCapacityUnits: 10,
   },
+  GlobalSecondaryIndexes: [
+    {
+      IndexName: 'gsi',
+      KeySchema: [{ AttributeName: 'pk', KeyType: 'HASH' }],
+      Projection: {
+        ProjectionType: 'ALL',
+      },
+      ProvisionedThroughput: {
+        ReadCapacityUnits: 10,
+        WriteCapacityUnits: 10,
+      },
+    },
+  ],
 };
 
 dynamodb.createTable(params, (err, data) => {
