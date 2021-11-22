@@ -12,3 +12,4 @@ config/*
 .idea/
 .env.dev.json
 .env.prod.json
+.dynamoDb
