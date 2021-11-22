@@ -1,5 +1,6 @@
 import IUseCase from '@core/IUseCase';
 import IOfferData from '@domain/offer/data/IOfferData';
+import createError from 'http-errors';
 
 import ILocationData, { LinkLocationToOfferDTO } from '../data/ILocationData';
 import { LocationOfferEntity } from '../entities/LocationEntity';
@@ -19,11 +20,11 @@ export default abstract class LinkLocationToOfferUseCase
     const offer = await this.dependencies.offerProvider.getOffer(data.offerId);
 
     if (!offer) {
-      throw Error('Offer not founded');
+      throw createError(400, 'Offer not founded');
     }
 
     if (!location) {
-      throw Error('Location not founded');
+      throw createError(400, 'Location not founded');
     }
 
     return this.dependencies.locationProvider.linkLocationToOffer(data);

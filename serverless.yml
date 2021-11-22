@@ -35,3 +35,11 @@ functions:
           path: offers/create
           method: post
           cors: true
+  
+  linkLocationToOffer:
+    handler: src/handler.linkLocationToOffer
+    events:
+      - http:
+          path: locations/linkToOffer
+          method: post
+          cors: true

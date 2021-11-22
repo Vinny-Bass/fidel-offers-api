@@ -39,4 +39,8 @@ const inputSchema = {
 export default middy(createOffer)
   .use(jsonBodyParser())
   .use(validator({ inputSchema }))
-  .use(httpErrorHandler());
+  .use(
+    httpErrorHandler({
+      logger: undefined,
+    }),
+  );

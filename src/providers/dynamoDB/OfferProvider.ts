@@ -13,6 +13,7 @@ export default class OfferProvider extends DynamoDBClient implements IOfferData 
         TableName: this.tableName,
         Key: {
           pk: `offer-${offerId}`,
+          sk: `offer-${offerId}`,
         },
       })
       .promise();

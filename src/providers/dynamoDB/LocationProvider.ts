@@ -16,6 +16,7 @@ export default class LocationProvider extends DynamoDBClient implements ILocatio
         TableName: this.tableName,
         Key: {
           pk: `location-${locationId}`,
+          sk: `location-${locationId}`,
         },
       })
       .promise();
